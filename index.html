@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>移动弹出框组件</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=no"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no, email=no" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=no"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <!-- 删除苹果默认的工具栏和菜单栏 -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <!-- 设置苹果工具栏颜色 -->
+    <meta name="format-detection" content="telphone=no, email=no" />
+    <!-- 忽略页面中的数字识别为电话，忽略email识别 -->
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-size: 12px;
+        padding: 20px;
+      }
+      button {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        margin: 20px 0;
+        background-color: green;
+        border-radius: 10px;
+        color: #fff;
+        border: 1px solid #eee;
+      }
+    </style>
+    <link rel="stylesheet" href="dialog.css" />
+  </head>
+  <body>
+    <!--
+<div class="g-dialog-contianer">
+	<div class="dialog-window">
+    	<div class="dialog-header waiting"></div>
+        <div class="dialog-content">你想干什么页面？</div>
+        <div class="dialog-footer">
+        	<button class="green">按钮</button>
+            <button class="red">按dw钮</button>
+            <button>按钮</button>
+            <button class="red">按wdw钮</button>
+            <button>按钮</button>
+        </div>
+    </div>
+</div>
+
+-->
+    <button id="btn12">弹出带输入框的对话框</button>
+    <button id="btn11">弹出iso样式的弹框</button>
+    <button id="btn10">自动关闭后回调</button>
+    <button id="btn1">没有传递任何参数(需手动关闭,刷新页面看其他效果)</button>
+    <button id="btn2">
+      弹出一个不带任何按钮，且是警告的框，并且2秒后自动关闭
+    </button>
+    <button id="btn3">
+      弹出一个有确认和取消按钮的成功框，点击按钮直接关闭
+    </button>
+    <button id="btn4">
+      弹出一个有确认按钮的警告框，点击按钮不关闭(需手动关闭)
+    </button>
+    <button id="btn5">弹出一个多组合的按钮框，且按钮样式可定制</button>
+    <button id="btn6">
+      弹出一个确认和删除的框，点击确认弹出加载框2秒自动关闭，点击删除按钮把上一次框关闭
+    </button>
+    <button id="btn7">弹出一个等待框，5秒后自动关闭并执行回调函数</button>
+    <button id="btn8">弹出一个框，在遮罩层上点击可关闭</button>
+    <button id="btn9">以动画方式弹出一个对话框</button>
+    <script type="text/javascript" src="zepto.1.1.4.js"></script>
+    <script type="text/javascript" src="zepto.dialog.js"></script>
+    <script>
+      $(function() {
+        $('#btn11').tap(function() {
+          $.dialog({
+            type: 'ios',
+            caption: '加入购物车',
+            message: '加入购物加入购物车成!',
+            buttons: [
+              {
+                text: '取消',
+                callback: function() {}
+              },
+              {
+                text: '继续申请',
+                callback: function() {
+                  alert(0);
+                  return false;
+                },
+                delayDisable: 30
+              }
+            ],
+            effect: true,
+            maskOpacity: 0.2,
+            maskClose: true,
+            //delay:2000,
+            delayCallback: function() {
+              alert('我是回调！');
+            }
+          });
+        });
+
+        $('#btn12').tap(function() {
+          $.dialog({
+            type: 'ios',
+            caption: '请输入E钱包支付密码',
+            message: '<input id="js-password" type="text">',
+            buttons: [
+              {
+                text: '确定',
+                callback: function() {
+                  console.log($('#js-password').val());
+                  return false;
+                }
+              },
+              {
+                text: '取消',
+                callback: function() {
+                  return false;
+                }
+              }
+            ],
+            effect: true,
+            maskOpacity: 0.2,
+            maskClose: true,
+            //delay:2000,
+            delayCallback: function() {
+              alert('我是回调！');
+            }
+          });
+        });
+
+        $('#btn10').tap(function() {
+          $.dialog({
+            type: 'question',
+            message: '加入购物车成功!',
+            buttons: [
+              {
+                type: 'green',
+                text: '知道了'
+              },
+              {
+                type: 'red',
+                text: '再看看',
+                callback: function() {
+                  return false;
+                }
+              }
+            ],
+            effect: true,
+            maskOpacity: 0.2,
+            maskClose: true,
+            //delay:2000,
+            delayCallback: function() {
+              alert('我是回调！');
+            }
+          });
+        });
+        $('#btn9').tap(function() {
+          $.dialog({
+            type: 'question',
+            message: '加入购物车成功!',
+            buttons: [
+              {
+                type: 'green',
+                text: '知道了'
+              },
+              {
+                type: 'red',
+                text: '再看看'
+              }
+            ],
+            effect: true,
+            maskOpacity: 0.2,
+            maskClose: true
+          });
+        });
+
+        $('#btn8').tap(function() {
+          $.dialog({
+            type: 'warning',
+            message: '在遮罩层上点击关闭',
+            maskClose: true
+          });
+        });
+
+        $('#btn7').tap(function() {
+          $.dialog({
+            type: 'waiting',
+            message: '正在激活...',
+            delay: 5000,
+            delayCallback: function() {
+              alert('我是回调');
+            }
+          });
+        });
+
+        $('#btn1').tap(function() {
+          $.dialog();
+        });
+
+        $('#btn2').tap(function() {
+          $.dialog({
+            type: 'warning',
+            message: '加入购物车失败！',
+            delay: 2000
+          });
+        });
+
+        $('#btn3').tap(function() {
+          $.dialog({
+            type: 'ok',
+            message: '加入购物车成功？',
+            //对话框按钮组
+            buttons: [
+              {
+                type: 'green',
+                text: '确定'
+              },
+              {
+                text: '取消'
+              }
+            ]
+          });
+        });
+
+        $('#btn4').tap(function() {
+          $.dialog({
+            type: 'warning',
+            message: '你确定要删除购物车嘛？',
+            //对话框按钮组
+            buttons: [
+              {
+                type: 'green',
+                text: '确定',
+                callback: function() {
+                  alert('我是确定按钮!但不关闭哦~~');
+                  return false;
+                }
+              },
+              {
+                type: 'red',
+                text: '删除',
+                callback: function() {
+                  alert('我是删除按钮!但不关闭哦~~');
+                  return false;
+                }
+              }
+            ]
+          });
+        });
+
+        $('#btn5').tap(function() {
+          $.dialog({
+            type: 'warning',
+            message: '你确定要删除购物车嘛？',
+            //对话框按钮组
+            buttons: [
+              {
+                type: 'green',
+                text: '确定',
+                callback: function() {
+                  alert('我是确定按钮!但不关闭哦~~');
+                  return false;
+                }
+              },
+              {
+                text: '删除',
+                callback: function() {
+                  alert('我是删除按钮!但不关闭哦~~');
+                  return false;
+                }
+              },
+              {
+                type: 'red',
+                text: '关闭',
+                callback: function() {
+                  alert('我是关闭按钮!就关闭哦~~');
+                }
+              }
+            ]
+          });
+        });
+
+        $('#btn6').tap(function() {
+          var dialog1 = $.dialog({
+            type: 'warning',
+            message: '你确定要删除购物车嘛？',
+            //对话框按钮组
+            buttons: [
+              {
+                type: 'green',
+                text: '确定',
+                callback: function() {
+                  $.dialog({
+                    type: 'loading',
+                    message: '2秒后我就自动关闭啦~',
+                    delay: 2000
+                  });
+
+                  return false;
+                }
+              },
+              {
+                type: 'red',
+                text: '删除',
+                callback: function() {
+                  $.dialog({
+                    width: 200,
+                    type: 'waiting',
+                    message: '我要把之前的删除，等10秒后我自己在自杀！',
+                    buttons: [
+                      {
+                        type: 'red',
+                        text: '删除上一个弹框',
+                        callback: function() {
+                          dialog1.close();
+                          return false;
+                        }
+                      }
+                    ],
+                    delay: 10000
+                  });
+                  return false;
+                }
+              }
+            ]
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
